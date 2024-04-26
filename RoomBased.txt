@@ -1,0 +1,89 @@
+La Mazmorra del Minotaurr
+www.minotaurr.com
+
+- Room based
+- Que hayan habilidades:
+	- Escuchar tras una puerta para detectar enemigos.
+	- Tiempo o espacio de no atención tras cruzar puerta.
+	- Poder cruzar puertas.
+	- Ver trampas
+	- Combate daño base	
+	- Critico base 
+	- Conocimiento de enemigos para saber level habilidades y debilidades.
+	- Magia base
+	- Punteria 
+	- Combate 
+	- Resistencias base 
+	- Esquivar base 
+	- Negociar base 
+	- Stamina
+	- PV
+	- View distance
+	- Velocidad de movimiento.(en ese rato ha de mover de tile a tile por completo y sinconizar cada frame de la animación)
+	
+- Otros
+	- Levels
+	- Equipo (efectos en todo)
+	- Dinero
+	- Armadura
+
+- Salas con altares o elementos que es el contenido de la web.
+- Enemigos por sala.
+- Multiplayer.
+- Elementos once a day: 
+	- Puerta que aparece una vez al dia en unas horas concretas.
+- Elementos once a week:
+	- Objeto de equipo que solo una vez a la semana tiene respawn.
+	- Mercado.
+- Quizá jugar con la stamina para dar un tiempo máximo de estancia en la mazz.
+- Powerups, algunos ocultos:
+	- Mulitplicar stats
+	- Armadura extra
+	- Doble dinero.
+	- Full vida.
+- Paredes:
+	- Rompibles
+	- Fantasma
+- Tiles interruptor para:
+	- Mantener abierto
+	- Cambio de estado:
+		-Abirto/cerrado.
+		-Bloque que des/aparece.
+		-Trampa in/activa
+- Pickups de bombas, pociones, comida para stamina... de solo el round.
+- Tipos de terreno:
+	- Doble de consumo de stamina.
+- Efectos:
+	- Telekinesis
+	- Invisibilidad
+	- Ocultacion
+
+
+Habrá zona que sin equipo de Stamina o cierto level, no se llega.
+Poner objetos para poder hacer del tiri tras ciertos runs.
+Movimiento de enemigos en tiempo real
+Enemigos:
+	- Hashling (solo se dibuja una transparencia con algunos puntos y 1 ses antes de atacar cambia la paleta de sprites para corporizarse)
+
+	- Goblins
+	- Orcs
+	- Shamans Orcs
+
+	- Guardias oscuros
+	- Magos oscuros
+	- Guerreros oscuros
+
+	- PJs especiales.
+
+	- Ratas gigantes
+	- Serpientes gigantes
+	- Osos
+	- Tigres
+	- Cucarachas gigantes
+
+	- Zombies
+	- Esqueletos
+	- Leech
+	
+
+

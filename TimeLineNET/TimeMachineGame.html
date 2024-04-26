@@ -1,0 +1,428 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Your ASP.NET application</title>
+    <link rel="stylesheet" type="text/css" href="css\GameStyles.css">
+    <script src="Login.js"></script>
+    <!-- <script src="WorldSelect.js"></script> -->
+    <script lang="javascript">
+        var started = false;
+        var frames = 0;//Start count for frames per second
+        var timestamp = new Date(); //Changes for 1000 millis detects to recount frames per second.
+        var looping = false; //Controls acces to mainLoopTick
+        var infoing = false; //Controls acces to infoLoopTick
+
+        //var imageLoaded = false; //When loaded and at the end of a loop
+        var keysState = {
+            'key_P': 0, //p, 80
+            'key_O': 0, //o, 79
+            'key_Q': 0, //q, 81
+            'key_A': 0, //a, 65
+            'key_W': 0, //w, 87
+            'key_S': 0, //s, 83
+            'key_D': 0, //d, 66
+            'key_E': 0, //e,
+            'key_SP': 0 //space,
+        };
+
+        var Model = {
+            'username': 'pepe',
+            //'world': 'world1'
+        };
+
+        var KeysTimeStamp = new Date();
+        var KeysModel = {
+            'keys': keysState,
+            'username': 'pepe'
+            //'world': 'world1'
+        };
+        var _keyViewers = false; //Se han vinculado los keyviewers?
+        var PControl;
+        var OControl;
+        var QControl;
+        var AControl;
+        var WControl;
+        var SControl;
+        var DControl;
+        var EControl;
+        var SPControl;
+        var ctx;
+        var img;
+        //Info panels
+        var NInfo;
+        var SInfo;
+        var WInfo;
+        var EInfo;
+        var PInfo;
+        var PJInfo;
+
+        var FrameWorker = new Worker('FrameWorker.js');
+        var KeysWorker = new Worker('KeysWorker.js');
+        var InfoWorker = new Worker('InfoWorker.js');
+
+        function draw(imageB64) {
+            img = new Image();
+            img.onload = theImageHasFinishedLoading;
+            //alert('towrite[' + return  + ']');
+            //if (imageB64 == '') img.src = 'data:image/gif;base64,R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAsAAAIUhA+hkcuO4lmNVindo7qyrIXiGBYAOw==';
+            //if (imageB64 == '""' || imageB64 == '') img.src = 'data:image/gif;base64,R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAsAAAIUhA+hkcuO4lmNVindo7qyrIXiGBYAOw==';
+            //else img.src = 'data:image/jpeg;base64,' + imageB64;
+            //else img.src = 'data:image/gif;base64,' + imageB64.substring(1, imageB64.length - 3);
+            //img.src = 'data:image/jpeg;base64,' + imageB64;
+            //img.src = 'data:image/gif;base64,' + imageB64;
+            img.src = 'data:image/gif;base64,' + imageB64.substring(1, imageB64.length - 1);
+        }
+
+        function theImageHasFinishedLoading() {
+            //addTimeLine('Image drawing.');
+            ctx.drawImage(img, 0, 0);
+            //addTimeLine('Image drawing end.');
+            looping = false;
+        }
+
+        function displayRender(imageB64) {
+            draw(imageB64);
+        }
+
+        function addOneFrame() {
+            frames++;
+            var frameDate = new Date();
+            if ((frameDate - timestamp) >= 1000) {
+                timestamp = frameDate;
+                timestamp.setMilliseconds(0);
+                displayFrames();
+                frames = 1;
+            }
+        }
+
+        function displayFrames() {
+            document.getElementById('frames').textContent = frames;
+        }
+
+        function oneMoreFrame() {
+            addOneFrame();
+        }
+
+        function receivedRender(imageB64) {
+            //displayRender('R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAsAAAIUhA+hkcuO4lmNVindo7qyrIXiGBYAOw==');
+            if ((imageB64 != '') && (imageB64 != '""')) {
+                //addTimeLine('Frame received.');
+                displayRender(imageB64);
+                //addTimeLine('Frame painted.');
+                oneMoreFrame();
+            }
+        }
+
+        /*
+        function LogImageContent(content) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "api/Image", false);
+            xhttp.setRequestHeader('Content-Type', 'application/json');
+            var _model = { 'value': content };
+            xhttp.send(JSON.stringify(_model));
+        }*/
+
+        function mainLoopTick() {
+            if (!looping) {
+                looping = true;
+                //addTimeLine('mainLoopTick');
+                FrameWorker.postMessage(JSON.stringify(Model));
+            }
+            // else addTimeLine('SKIPING mainLoopTick');
+        }
+
+        function startRendering() {
+            ctx = document.getElementById('canvas').getContext('2d');
+            //setInterval(mainLoopTick, 150);//7,8 frames
+            //setInterval(mainLoopTick, 500);//2 frames
+            FrameWorker.onmessage = function (event) {
+                receivedRender(event.data);
+            };
+            setInterval(mainLoopTick, 50);//20,21 frames
+        }
+
+        function hadleKeyViewers() {
+            PControl = document.getElementById('keyP');
+            OControl = document.getElementById('keyO');
+            QControl = document.getElementById('keyQ');
+            AControl = document.getElementById('keyA');
+            WControl = document.getElementById('keyW');
+            SControl = document.getElementById('keyS');
+            DControl = document.getElementById('keyD');
+            EControl = document.getElementById('keyE');
+            SPControl = document.getElementById('keySP');
+            _keyViewers = true;
+        }
+
+        function handleKeyEvents() {
+            document.addEventListener('keyup', keyRelease);
+            document.addEventListener('keydown', keyDown);
+        }
+
+        function KeysPollingResult(result) {
+            addTimeLine('KeysPollingResult:' + result);
+        }
+
+        function keyPollingLoopTick() {
+            //if (!keysLooping) {
+            //keysLooping = true;
+            var Now = new Date();
+            if ((Now - KeysTimeStamp) >= 10) //Esperar a que  combos de teclas se estabilicen para enviarlo.
+            {
+                KeysWorker.postMessage(JSON.stringify(KeysModel));
+                KeysTimeStamp = Now;
+            }
+            //}
+        }
+
+        function startKeyPolling() {
+            /*
+            FrameWorker.onmessage = function (event)
+            {
+                receivedRender(event.data);
+            };
+            setInterval(mainLoopTick, 50);//20,21 frames
+            */
+            hadleKeyViewers();
+            handleKeyEvents();
+            KeysWorker.onmessage = function (event) {
+                KeysPollingResult(event.data);
+            };
+            setInterval(keyPollingLoopTick, 50);//20,21 frames
+        }
+
+        function hadleInfoViewers() {
+            NInfo = document.getElementById('Info_North');
+            SInfo = document.getElementById('Info_South');
+            WInfo = document.getElementById('Info_West');
+            EInfo = document.getElementById('Info_East');
+            PInfo = document.getElementById('Info_Position');
+            PJInfo = document.getElementById('Info_Player');
+        }
+
+        function setInfoToViewers(InfoObj) {
+            //addTimeLine('Galifrey North');
+            NInfo.innerHTML = 'North:' + InfoObj.North;
+            //addTimeLine('Destroyed');
+            SInfo.innerHTML = 'South:' + InfoObj.South;
+            WInfo.innerHTML = 'West:' + InfoObj.West;
+            EInfo.innerHTML = 'East:' + InfoObj.East;
+            PInfo.innerHTML = 'Position:' + InfoObj.Position;
+            //PJInfo.innerHTML = InfoObj.North;
+
+        }
+
+        function InfoPollingResult(result) {
+            var InfoObj = JSON.parse(result);
+            setInfoToViewers(InfoObj);
+            infoing = false;
+        }
+
+        function InfoPollingLoopTick() {
+            if (!infoing) {
+                infoing = true;
+                InfoWorker.postMessage(JSON.stringify(Model));
+            }
+        }
+
+        function startInfoPolling() {
+            hadleInfoViewers();
+            InfoWorker.onmessage = function (event) {
+                InfoPollingResult(event.data);
+            };
+            setInterval(InfoPollingLoopTick, 500);//1 frames
+        }
+
+        function startGame(playerToken) {
+            if (!started) {
+                Model['username'] = playerToken;
+                KeysModel['username'] = playerToken;
+                startRendering();
+                startKeyPolling();
+                startInfoPolling();
+                started = true;
+            }
+            return false; //For not submitting  a form
+        }
+
+        function setup() {
+            LoginSetup();
+            //WorldSelectSetup();
+            addTimeLine('Form Loaded.');
+        }
+
+        function addTimeLine(text) {
+            var lineDate = new Date();
+            var ul = document.getElementById('TimeLine');
+            if (ul.childElementCount < 1000) {
+                var li = document.createElement("li");
+                //li.appendChild(document.createTextNode("Element 4"));
+                li.textContent = '[' + lineDate.getMinutes() + ':' + lineDate.getSeconds() + '.' + lineDate.getMilliseconds() + ']:' + text;
+                ul.appendChild(li);
+            }
+        }
+
+        function uniCharCode(event) {
+            var char = event.which || event.keyCode;
+            return char;
+        }
+
+        function uniKeyCode(event) {
+            var key = event.keyCode;
+            return key;
+        }
+
+        function keyDown(event) {
+            //addTimeLine('keydown');
+
+            var keyChar = uniCharCode(event);
+            var Character = (String.fromCharCode(keyChar) == ' ') ? 'SP' : String.fromCharCode(keyChar);
+            //addTimeLine('[a]key_' + String.fromCharCode(keyChar));
+            //addTimeLine('[b]key_' + Character);
+            //addTimeLine('[c]key_' + keyChar);
+            keysState['key_' + Character] = 1;
+
+            printKeys();
+        }
+
+        function keyRelease(event) {
+            //addTimeLine('keyup');
+            var keyChar = uniCharCode(event);
+
+            var Character = (String.fromCharCode(keyChar) == ' ') ? 'SP' : String.fromCharCode(keyChar);
+
+            /*if (keysState['key_' + Character] == 0) {
+                alert('chungo');
+            }*/
+            //addTimeLine('key_' + String.fromCharCode(keyChar));
+            keysState['key_' + Character] = 0;
+            printKeys();
+        }
+
+        function printKeysControl(AnyControl, keyStateValue) {
+            var BACK_PRESSED = 'green';
+            var BACK_RELEASED = 'wheat';
+            var KEY_PRESSED = 'white';
+            var KEY_RELEASED = 'black';
+            AnyControl.style.color = (keyStateValue == 0 ? KEY_RELEASED : KEY_PRESSED);
+            AnyControl.style.background = (keyStateValue == 0 ? BACK_RELEASED : BACK_PRESSED);
+        }
+
+        function printKeys() {
+
+            if (_keyViewers) {
+                printKeysControl(PControl, keysState['key_P']);
+                printKeysControl(OControl, keysState['key_O']);
+                printKeysControl(AControl, keysState['key_A']);
+                printKeysControl(QControl, keysState['key_Q']);
+                printKeysControl(WControl, keysState['key_W']);
+                printKeysControl(SControl, keysState['key_S']);
+                printKeysControl(DControl, keysState['key_D']);
+                printKeysControl(EControl, keysState['key_E']);
+                printKeysControl(SPControl, keysState['key_SP']);
+            }
+        }
+
+        /*
+        runAsync(() => {
+            x = "2";
+            // this will run second (or never)
+            console.log(x);
+
+            // this is pointless
+            return x;
+        });*/
+
+    </script>
+
+</head>
+<!-- <body onload="startGame('Zero')">-->
+<body onload="setup()">
+    <div id="header">
+        <form onsubmit="return false;">
+            <input id="PlayerName" type="text" value="Player1" />
+            <input id="PlayerPass" type="password" value="Player1" />
+            <input type="button" onclick="doLogin()" />
+        </form>
+        <!--
+        <form onsubmit="return false;">
+            <input id="WorldName" type="text" value="World1" />
+            <input type="button" onclick="selectWorld()" />
+        </form>
+        -->
+
+        <div id="game">
+            <div id="display">
+                <canvas id="canvas" height="360" width="360" background="black"></canvas>
+            </div>
+            <ul id="info">
+                <li id="Info_North">Norte:</li>
+                <li id="Info_South">Sur:</li>
+                <li id="Info_West">Oeste:</li>
+                <li id="Info_East">Este:</li>
+                <li id="Info_Position">Encima:</li>
+            </ul>
+        </div>
+        <p id="frames">0</p>
+    </div>
+    <div id="main">
+        <div class="section first">
+            <h2>Teclado</h2>
+            <table id="teclado">
+                <tr>
+                    <td id="keyQ">Q</td>
+                    <td id="keyW">W</td>
+                    <td id="keyE">E</td>
+                    <td id="anyKey">R</td>
+                    <td id="anyKey">T</td>
+                    <td id="anyKey">Y</td>
+                    <td id="anyKey">U</td>
+                    <td id="anyKey">I</td>
+                    <td id="keyO">O</td>
+                    <td id="keyP">P</td>
+                    <td colspan="2" rowspan="2" id="keyP">Int</td>
+                </tr>
+                <tr>
+                    <td id="keyA">A</td>
+                    <td id="keyS">S</td>
+                    <td id="keyD">D</td>
+                    <td id="anyKey">F</td>
+                    <td id="anyKey">G</td>
+                    <td id="anyKey">H</td>
+                    <td id="anyKey">J</td>
+                    <td id="anyKey">K</td>
+                    <td id="anyKey">L</td>
+                    <td id="anyKey">Ñ</td>
+                </tr>
+                <tr>
+                    <td id="anyKey">Z</td>
+                    <td id="anyKey">X</td>
+                    <td id="anyKey">C</td>
+                    <td id="anyKey">V</td>
+                    <td id="anyKey">B</td>
+                    <td id="anyKey">N</td>
+                    <td id="anyKey">M</td>
+                    <td id="anyKey">;</td>
+                    <td id="anyKey">:</td>
+                    <td id="anyKey">-</td>
+                    <td colspan="2" id="anyKey">Shift</td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="anyKey">L ctrl</td>
+                    <td colspan="6" id="keySP">Space</td>
+                    <td colspan="2" id="anyKey">Alt Gr</td>
+                    <td colspan="2" id="anyKey">R ctrl</td>
+                </tr>
+            </table>
+        </div>
+        <div class="section last">
+            <h2>TimmeLine</h2>
+            <ul id="TimeLine">
+                <li>Start</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

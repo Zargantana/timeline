@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2456AB6E-048F-4E74-A87B-05A2D6869B60}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TimeMachine</RootNamespace>
+    <AssemblyName>TimeMachine</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animation.cs" />
+    <Compile Include="DB\Model\DBPlayerImages.cs" />
+    <Compile Include="DB\PlayerInfoDBReader.cs" />
+    <Compile Include="DB\FrameDBReader.cs" />
+    <Compile Include="DB\Model\DBPlayer.cs" />
+    <Compile Include="DB\Model\DBObject.cs" />
+    <Compile Include="DB\Model\DBTile.cs" />
+    <Compile Include="DB\ObjectsReader.cs" />
+    <Compile Include="DB\PlayersImagesDBReader.cs" />
+    <Compile Include="DB\ScreenTilesReader.cs" />
+    <Compile Include="DB\PlayerReader.cs" />
+    <Compile Include="DB\TWorker.cs" />
+    <Compile Include="InformationMultiBuffer.cs" />
+    <Compile Include="FrameMultiBuffer.cs" />
+    <Compile Include="GameConnection.cs" />
+    <Compile Include="GameViewEngine.cs" />
+    <Compile Include="KeysConnector.cs" />
+    <Compile Include="KeysPressed.cs" />
+    <Compile Include="mESUREITOR.cs" />
+    <Compile Include="MultiBuffer.cs" />
+    <Compile Include="PlayerFrame.cs" />
+    <Compile Include="PlayerImagesEngine.cs" />
+    <Compile Include="PlayerInfoEngine.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TimeViewEngine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataBaseTypes\DataBaseTypes.csproj">
+      <Project>{3895f4cc-08e6-474e-a001-b3726593515b}</Project>
+      <Name>DataBaseTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedModels\ServiceCommandInterfaces.csproj">
+      <Project>{3a3e592a-120a-45f6-b354-187d565f571b}</Project>
+      <Name>ServiceCommandInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

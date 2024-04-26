@@ -1,1 +1,3 @@
-Ini
+Timeline.NET is a www client receiving frames and sending keystrokes. Simple login form attached.
+Timeline is the server composed of many services to run the world, to run client service for player's perspective frame rendering, to run client service for player's to send keystrokes for world interaction.
+All the services communicate by WCF, but would be nice by sockets to split services and be scalable.
