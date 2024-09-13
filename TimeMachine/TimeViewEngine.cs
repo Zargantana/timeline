@@ -48,6 +48,7 @@ namespace TimeMachine
             PlayerUID = player;
             _world = world;
             if (world == "World1") ConnectionString = "data source=(local)\\SQLEXPRESS2K14;initial catalog=TimeMachine;Integrated Security=true;";
+            else if (world == "World2") ConnectionString = "data source=(local)\\SQLEXPRESS2K14;initial catalog=TimeMachine2;Integrated Security=true;";
 
 
             frameDBReader = new FrameDBReader(PlayerUID, ConnectionString);

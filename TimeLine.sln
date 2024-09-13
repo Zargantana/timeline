@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.19
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeMachine", "TimeMachine\TimeMachine.csproj", "{2456AB6E-048F-4E74-A87B-05A2D6869B60}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeFabricService", "TimeFabricService\TimeFabricService.csproj", "{27EB0D6B-C64C-4856-A8FA-376FF74BDBF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Existance", "Existance\Existance.csproj", "{1B15361E-3CFF-401F-9DAD-EF79FA8B52E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomEditor", "RoomEditor\RoomEditor.csproj", "{BD30E90F-62F9-47E2-B3A2-85D012F2675E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,14 @@ Global
 		{1B15361E-3CFF-401F-9DAD-EF79FA8B52E9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B15361E-3CFF-401F-9DAD-EF79FA8B52E9}.Release|x64.ActiveCfg = Release|Any CPU
 		{1B15361E-3CFF-401F-9DAD-EF79FA8B52E9}.Release|x64.Build.0 = Release|Any CPU
+		{BD30E90F-62F9-47E2-B3A2-85D012F2675E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD30E90F-62F9-47E2-B3A2-85D012F2675E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD30E90F-62F9-47E2-B3A2-85D012F2675E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BD30E90F-62F9-47E2-B3A2-85D012F2675E}.Debug|x64.Build.0 = Debug|Any CPU
+		{BD30E90F-62F9-47E2-B3A2-85D012F2675E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD30E90F-62F9-47E2-B3A2-85D012F2675E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD30E90F-62F9-47E2-B3A2-85D012F2675E}.Release|x64.ActiveCfg = Release|Any CPU
+		{BD30E90F-62F9-47E2-B3A2-85D012F2675E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
