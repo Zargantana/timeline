@@ -439,116 +439,116 @@ GO
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('f219e5a1-4a7a-437a-afd8-c4adf3566a7d','43c00040-ebfb-43a3-869e-5df44cbc2254')
+           ('f219e5a1-4a7a-437a-afd8-c4adf3566a7d','43c00040-ebfb-43a3-869e-5df44cbc2254',0,0)
 GO
 
 --MESA ET
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('7b4ed087-50ee-486c-b3b9-66b868919194','26520007-5fe4-4cb6-979a-f7e1031d0697')
+           ('7b4ed087-50ee-486c-b3b9-66b868919194','26520007-5fe4-4cb6-979a-f7e1031d0697',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('7b4ed087-50ee-486c-b3b9-66b868919194','71d2f116-38f0-4a01-99f8-5467ae901c9e')
+           ('7b4ed087-50ee-486c-b3b9-66b868919194','71d2f116-38f0-4a01-99f8-5467ae901c9e',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('7b4ed087-50ee-486c-b3b9-66b868919194','0784ff64-9440-4b06-b15c-2e62d865435e')
+           ('7b4ed087-50ee-486c-b3b9-66b868919194','0784ff64-9440-4b06-b15c-2e62d865435e',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('7b4ed087-50ee-486c-b3b9-66b868919194','4315f5de-cce8-4d5c-96c6-d8b344b0d8ac')
+           ('7b4ed087-50ee-486c-b3b9-66b868919194','4315f5de-cce8-4d5c-96c6-d8b344b0d8ac',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('7b4ed087-50ee-486c-b3b9-66b868919194','4a9a7580-f9a1-4dae-85ae-b6e507fc70f2')
+           ('7b4ed087-50ee-486c-b3b9-66b868919194','4a9a7580-f9a1-4dae-85ae-b6e507fc70f2',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('7b4ed087-50ee-486c-b3b9-66b868919194','c7d69403-674b-440c-b425-e414fe8ad84b')
+           ('7b4ed087-50ee-486c-b3b9-66b868919194','c7d69403-674b-440c-b425-e414fe8ad84b',0,0)
 GO
 
 --MESA JE
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','afcf94aa-1578-4895-8d1e-b0f243de60bf')
+           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','afcf94aa-1578-4895-8d1e-b0f243de60bf',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','b12dc396-f3f4-446e-8f4d-3542eefc915f')
+           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','b12dc396-f3f4-446e-8f4d-3542eefc915f',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','aef478aa-7011-447f-9bd4-db082a1dbb84')
+           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','aef478aa-7011-447f-9bd4-db082a1dbb84',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','ecafc5be-2b1c-4950-99e3-6987a825b862')
+           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','ecafc5be-2b1c-4950-99e3-6987a825b862',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','031ce17b-59f7-4534-b23c-bcc65aa40b51')
+           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','031ce17b-59f7-4534-b23c-bcc65aa40b51',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','a869323e-c1c0-4946-9b97-b8921ac31628')
+           ('5daee1e3-f654-41e2-b8dd-942502b7cf62','a869323e-c1c0-4946-9b97-b8921ac31628',0,0)
 GO
 
 --MESA PS
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','9fb9b29d-5e54-4e2d-9e11-a680eaadfa46')
+           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','9fb9b29d-5e54-4e2d-9e11-a680eaadfa46',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','ee39e1a8-a494-4356-ac5b-f9bf7fee031c')
+           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','ee39e1a8-a494-4356-ac5b-f9bf7fee031c',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','fe6ea566-9241-429f-9dc4-d388dce0cf87')
+           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','fe6ea566-9241-429f-9dc4-d388dce0cf87',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','9d69dd51-bee0-4e05-ae97-f2e6bfabb211')
+           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','9d69dd51-bee0-4e05-ae97-f2e6bfabb211',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','f47f20ee-12f5-413d-bb76-fe9c6bfc627e')
+           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','f47f20ee-12f5-413d-bb76-fe9c6bfc627e',0,0)
 GO
 
 INSERT INTO [dbo].[REL_OBJECTS_AND_PARTS]
            ([OBJECT],[OBJECT_PART])
      VALUES
-           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','010bc5cb-0b2a-46e1-a3c8-60a34a6da8a8')
+           ('88fce8cf-1e19-49b6-9d74-452251edf6cc','010bc5cb-0b2a-46e1-a3c8-60a34a6da8a8',0,0)
 GO

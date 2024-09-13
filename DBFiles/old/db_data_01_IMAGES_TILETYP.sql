@@ -86,6 +86,16 @@ INSERT INTO [dbo].[IMAGES]
 		   ,[NAME]
            ,[IMAGE])
      VALUES
+           ('CA4526C4-631A-40A4-AFAB-503579F94673'
+		   ,'Suelo7'
+           ,'D:\Olles\TimeLine\TimeLine\Images\Tiles\Bases\Suelo8.gif')
+GO
+
+INSERT INTO [dbo].[IMAGES]
+           ([UID]
+		   ,[NAME]
+           ,[IMAGE])
+     VALUES
            ('4d25fbbd-a5a9-4b4c-b664-1d02201dfb6b'
 		   ,'Brasero1'
            ,'D:\Olles\TimeLine\TimeLine\Images\ObjectParts\Bases\Brasero1.gif')
@@ -329,6 +339,22 @@ INSERT INTO [dbo].[TILE_TYPES]
            ('7F19777A-5321-44DE-88D9-E5C35DBA5131'
 		   ,'Suelo7'
            ,'Suelo7'
+           ,'false'
+           ,255
+           ,'true')
+GO
+
+INSERT INTO [dbo].[TILE_TYPES]
+           ([UID]
+           ,[NAME]
+           ,[IMAGE]
+           ,[CUTVIEW]
+           ,[DARKNESS]
+           ,[TRASPASSABLE])
+     VALUES
+           ('33F91EEE-E884-47D7-9EF5-6927634494AA'
+		   ,'Suelo8'
+           ,'Suelo8'
            ,'false'
            ,255
            ,'true')
