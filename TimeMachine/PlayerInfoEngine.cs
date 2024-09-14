@@ -26,6 +26,7 @@ namespace TimeMachine
             //El player UID que se usará a partir de ahora   
             PlayerUID = player;
             if (world == "World1") ConnectionString = "data source=(local)\\SQLEXPRESS2K14;initial catalog=TimeMachine;Integrated Security=true;";
+            else if (world == "World2") ConnectionString = "data source=(local)\\SQLEXPRESS2K14;initial catalog=TimeMachine2;Integrated Security=true;";
 
             playerInfoDBReader = new PlayerInfoDBReader(PlayerUID, ConnectionString);
         }

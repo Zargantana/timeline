@@ -56,23 +56,23 @@ namespace RoomEditor
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            char c = e.KeyChar;
-            if (c == 'a')
+            string c = e.KeyChar.ToString().ToUpper();
+            if (c == "A")
             {
                 MoveGOD_Left();
             }
 
-            if (c == 's')
+            if (c == "S")
             {
                 MoveGOD_Down();
             }
 
-            if (c == 'd')
+            if (c == "D")
             {
                 MoveGOD_Right();
             }
 
-            if (c == 'w')
+            if (c == "W")
             {
                 MoveGOD_Up();
             }
@@ -219,9 +219,9 @@ namespace RoomEditor
             command.Parameters.AddWithValue("@roomgridy", position.Y);
             command.Parameters.AddWithValue("@tiletypeuid", tileType.UID);
             command.Parameters.AddWithValue("@image", tileType.IMAGE); 
-            command.Parameters.AddWithValue("@cutview", tileType.CUTVIEW);
+            command.Parameters.AddWithValue("@cutview", tileType.CUTVIEW ? "true" : "false");
             command.Parameters.AddWithValue("@darkness", tileType.DARKNESS);
-            command.Parameters.AddWithValue("@traspassable", tileType.TRASPASSABLE);
+            command.Parameters.AddWithValue("@traspassable", tileType.TRASPASSABLE ? "true" : "false");
 
             command.ExecuteNonQuery();
         }
@@ -445,7 +445,7 @@ namespace RoomEditor
             try
             {
                 SqlCommand command = new SqlCommand("SELECT [UID], [NAME], [OFFSET_X], [OFFSET_Y], [IMAGE], [PV], " +
-                    "[INVULNERABLE], [CUTVIEW], [LIGHTNING], [LIGHTNING_TILES], [LIGHTNING_FACTOR], [LIGHTSWITCH], [TRASPASSABLE] " + 
+                    "[INVULNERABLE], [CUTVIEW], [LIGHTNING], [LIGHTNING_TILES], [LIGHTNING_FACTOR], [LIGHTSWITCH], [TRASPASSABLE], [ABOVE] " + 
                     "FROM [TimeMachine2].[dbo].[OBJECT_PART_TYPES] PART INNER JOIN " +
                     "[TimeMachine2].[dbo].[REL_OBJECT_TYPES_AND_OBJECT_PART_TYPES] REL ON PART.UID = REL.OBJECT_PART_TYPE " + 
                     "WHERE REL.OBJECT_TYPE = @uid", connection);
@@ -471,6 +471,7 @@ namespace RoomEditor
                         objectPartType.LIGHTNING_FACTOR = (string)objectsReader[10];
                         objectPartType.LIGHTSWITCH = Types.DBBoolToBoolean((string)objectsReader[11]);
                         objectPartType.TRASPASSABLE = Types.DBBoolToBoolean((string)objectsReader[12]);
+                        objectPartType.ABOVE = Types.DBBoolToBoolean((string)objectsReader[13]);
 
                         objectPartTypesList.Add(objectPartType);
                     }
@@ -505,7 +506,7 @@ namespace RoomEditor
             command.Parameters.AddWithValue("@roomgridy", GODLastKnownPosition.Y);
             command.Parameters.AddWithValue("@typeuid", objectType.UID);
             command.Parameters.AddWithValue("@pv", objectType.PV);
-            command.Parameters.AddWithValue("@invulnerable", objectType.INVULNERABLE);
+            command.Parameters.AddWithValue("@invulnerable", objectType.INVULNERABLE ? "true" : "false");
             
             command.ExecuteNonQuery();
 
@@ -518,10 +519,10 @@ namespace RoomEditor
             SqlCommand command = new SqlCommand("INSERT INTO [dbo].[OBJECT_PARTS] ([UID]" +
                 ", [NAME], [ROOM_TILE_GRID_X], [ROOM_TILE_GRID_Y], [TYPE_DEFINITION], [IMAGE], [PV], " +
                 "[INVULNERABLE], [CUTVIEW], [LIGHTNING], [LIGHTNING_TILES], [LIGHTNING_FACTOR], " +
-                "[LIGHTSWITCH], [LIGHTSWITCH_STATUS], [TRASPASSABLE]) " +
+                "[LIGHTSWITCH], [LIGHTSWITCH_STATUS], [TRASPASSABLE], [ABOVE]) " +
                 "VALUES (@uid, @name, @roomgridx, @roomgridy, @typeuid, @image, @pv, @invulnerable," +
                 "@cutview, @lightning, @lightning_tiles, @lightning_factor, @lightswitch, " + 
-                "@lightswitch_status, @traspassable)", connection);
+                "@lightswitch_status, @traspassable, @above)", connection);
             command.Parameters.AddWithValue("@uid", objectPartGuid.ToString());
             command.Parameters.AddWithValue("@name", objectPartType.NAME);
             command.Parameters.AddWithValue("@roomgridx", GODLastKnownPosition.X + objectPartType.OFFSET_X);
@@ -529,14 +530,15 @@ namespace RoomEditor
             command.Parameters.AddWithValue("@typeuid", objectPartType.UID);
             command.Parameters.AddWithValue("@image", objectPartType.IMAGE);
             command.Parameters.AddWithValue("@pv", objectPartType.PV);
-            command.Parameters.AddWithValue("@invulnerable", objectPartType.INVULNERABLE);
-            command.Parameters.AddWithValue("@cutview", objectPartType.CUTVIEW);
+            command.Parameters.AddWithValue("@invulnerable", objectPartType.INVULNERABLE ? "true" : "false");
+            command.Parameters.AddWithValue("@cutview", objectPartType.CUTVIEW ? "true" : "false");
             command.Parameters.AddWithValue("@lightning", objectPartType.LIGHTNING);
             command.Parameters.AddWithValue("@lightning_tiles", objectPartType.LIGHTNING_TILES);
             command.Parameters.AddWithValue("@lightning_factor", objectPartType.LIGHTNING_FACTOR);
-            command.Parameters.AddWithValue("@lightswitch", objectPartType.LIGHTSWITCH);
-            command.Parameters.AddWithValue("@lightswitch_status", false);
-            command.Parameters.AddWithValue("@traspassable", objectPartType.TRASPASSABLE);
+            command.Parameters.AddWithValue("@lightswitch", objectPartType.LIGHTSWITCH ? "true" : "false");
+            command.Parameters.AddWithValue("@lightswitch_status", "false");
+            command.Parameters.AddWithValue("@traspassable", objectPartType.TRASPASSABLE ? "true" : "false");
+            command.Parameters.AddWithValue("@above", objectPartType.ABOVE ? "true" : "false");
 
             command.ExecuteNonQuery();
 

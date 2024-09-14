@@ -53,6 +53,14 @@ namespace TimeMachine
                 PlayersImagesDBReader playersImagesDBReader = new PlayersImagesDBReader(ConnectionString);
                 playersImagesDBReader.ReadWorldPlayersImages();
                 WorldsPlayersImages.Add("World1", playersImagesDBReader.playersImages);
+            } 
+            else if (!WorldsPlayersImages.ContainsKey("World2"))
+            {
+                /*(world == "World1")*/
+                string ConnectionString = "data source=(local)\\SQLEXPRESS2K14;initial catalog=TimeMachine2;Integrated Security=true;";
+                PlayersImagesDBReader playersImagesDBReader = new PlayersImagesDBReader(ConnectionString);
+                playersImagesDBReader.ReadWorldPlayersImages();
+                WorldsPlayersImages.Add("World2", playersImagesDBReader.playersImages);
             }
             GC.Collect();
         }

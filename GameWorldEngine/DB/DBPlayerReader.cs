@@ -92,6 +92,7 @@ namespace TimeFabric
                 {
                     if (CanReader.Read())
                     {
+                        var a = (string)CanReader[0];
                         result = Types.DBBoolToBoolean((string)CanReader[0]);
                     }
                 }

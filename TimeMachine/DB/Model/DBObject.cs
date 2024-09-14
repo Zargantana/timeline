@@ -13,5 +13,6 @@ namespace TimeMachine.DB.Model
         public string Image { get; set; }
         public bool Cutview { get; set; }
         public bool Traspassable { get; set; }
+        public bool Above { get; set; }
     }
 }

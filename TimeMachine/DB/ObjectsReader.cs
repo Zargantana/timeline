@@ -15,7 +15,7 @@ namespace TimeMachine.DB
     {
         private Thread GetNearbyObjectsThread;
         private SqlDataReader ObjectReader;
-        private const string QUERYSTRING = "SELECT ROOM_TILE_GRID_X, ROOM_TILE_GRID_Y, IMAGE, CUTVIEW, TRASPASSABLE FROM OBJECT_PARTS " +
+        private const string QUERYSTRING = "SELECT ROOM_TILE_GRID_X, ROOM_TILE_GRID_Y, IMAGE, CUTVIEW, TRASPASSABLE, ABOVE FROM OBJECT_PARTS " +
                 "WHERE (ROOM_TILE_GRID_X BETWEEN @tilexo AND @tilexf) AND (ROOM_TILE_GRID_Y BETWEEN @tileyo AND @tileyf) " +
                 "ORDER BY ROOM_TILE_GRID_Y, ROOM_TILE_GRID_X";
 
@@ -69,6 +69,7 @@ namespace TimeMachine.DB
                     _local.Image = (string)ObjectReader[2];
                     _local.Cutview = Types.DBBoolToBoolean((string)ObjectReader[3]);
                     _local.Traspassable = Types.DBBoolToBoolean((string)ObjectReader[4]);
+                    _local.Above = Types.DBBoolToBoolean((string)ObjectReader[5]);
 
                     dBObjects.Add(_local);
                 }

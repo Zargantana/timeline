@@ -22,6 +22,7 @@ namespace TimeFabric
         public bool Cutview { get; set; }
         public bool Invulnerable { get; set; }
         public int  PV { get; set; }
+        public bool Above { get; set; }
     }
 
     public class DBObjectPartList : Dictionary<string, DBObjectPart>

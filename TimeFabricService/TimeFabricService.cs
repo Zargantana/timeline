@@ -17,7 +17,7 @@ namespace TimeFabricService
 
         public void Start()
         {
-            GameEngine.Start("data source=(local)\\SQLEXPRESS2K14;initial catalog=TimeMachine;Integrated Security=true;");
+            GameEngine.Start("data source=(local)\\SQLEXPRESS2K14;initial catalog=TimeMachine2;Integrated Security=true;");
 
             //KEYS COMMAND LISTENER
             StartKeysListener();

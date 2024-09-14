@@ -231,6 +231,26 @@ INSERT INTO [dbo].[IMAGES]
            ,'D:\Olles\TimeLine\TimeLine\Images\ObjectParts\Bases\Silla.gif')
 GO
 
+INSERT INTO [dbo].[IMAGES]
+           ([UID]
+		   ,[NAME]
+           ,[IMAGE])
+     VALUES
+           ('22E381F0-11B3-44A3-A549-DA943E662145'
+		   ,'PalmeraCopa'
+           ,'D:\Olles\TimeLine\TimeLine\Images\ObjectParts\Bases\PalmeraCopa.gif')
+GO
+
+INSERT INTO [dbo].[IMAGES]
+           ([UID]
+		   ,[NAME]
+           ,[IMAGE])
+     VALUES
+           ('4B1D5AE0-46EA-489A-8B09-D29E736D1758'
+		   ,'PalmeraTronc'
+           ,'D:\Olles\TimeLine\TimeLine\Images\ObjectParts\Bases\PalmeraTronc.gif')
+GO
+
 
 INSERT INTO [dbo].[TILE_TYPES]
            ([UID]

@@ -76,7 +76,8 @@ namespace TimeMachine.DB
 "	INNER JOIN [OBJECTS] OBJ ON REL.OBJECT = OBJ.UID " +
 "WHERE  " +
 "	OP.ROOM_TILE_GRID_X = @X AND  " +
-"	OP.ROOM_TILE_GRID_Y = @Y " +
+"	OP.ROOM_TILE_GRID_Y = @Y AND " +
+"	OP.ABOVE = 'false' " +
 " " +
 "DECLARE @NORTH AS nvarchar(128) " +
 "SET @NORTH = 'Nothing' " +
@@ -88,7 +89,8 @@ namespace TimeMachine.DB
 "	INNER JOIN [OBJECTS] OBJ ON REL.OBJECT = OBJ.UID " +
 "WHERE  " +
 "	OP.ROOM_TILE_GRID_X = @X AND  " +
-"	OP.ROOM_TILE_GRID_Y = (@Y - 1) " +
+"	OP.ROOM_TILE_GRID_Y = (@Y - 1) AND " +
+"	OP.ABOVE = 'false' " +
 " " +
 "DECLARE @SOUTH AS nvarchar(128) " +
 "SET @SOUTH = 'Nothing' " +
@@ -100,7 +102,8 @@ namespace TimeMachine.DB
 "	INNER JOIN [OBJECTS] OBJ ON REL.OBJECT = OBJ.UID " +
 "WHERE  " +
 "	OP.ROOM_TILE_GRID_X = @X AND  " +
-"	OP.ROOM_TILE_GRID_Y = (@Y + 1) " +
+"	OP.ROOM_TILE_GRID_Y = (@Y + 1) AND " +
+"	OP.ABOVE = 'false' " +
 " " +
 "DECLARE @WEST AS nvarchar(128) " +
 "SET @WEST = 'Nothing' " +
@@ -112,7 +115,8 @@ namespace TimeMachine.DB
 "	INNER JOIN [OBJECTS] OBJ ON REL.OBJECT = OBJ.UID " +
 "WHERE  " +
 "	OP.ROOM_TILE_GRID_X = (@X - 1) AND  " +
-"	OP.ROOM_TILE_GRID_Y = @Y " +
+"	OP.ROOM_TILE_GRID_Y = @Y AND " +
+"	OP.ABOVE = 'false' " +
 " " +
 "DECLARE @EAST AS nvarchar(128) " +
 "SET @EAST = 'Nothing' " +
@@ -124,7 +128,8 @@ namespace TimeMachine.DB
 "	INNER JOIN [OBJECTS] OBJ ON REL.OBJECT = OBJ.UID " +
 "WHERE  " +
 "	OP.ROOM_TILE_GRID_X = (@X + 1) AND  " +
-"	OP.ROOM_TILE_GRID_Y = @Y " +
+"	OP.ROOM_TILE_GRID_Y = @Y AND " +
+"	OP.ABOVE = 'false' " +
 " " +
 " " +
 "SELECT @NORTH AS NORTH, @SOUTH AS SOUTH, @WEST AS WEST, @EAST AS EAST, @POSITION AS POSITION";

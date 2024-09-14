@@ -138,7 +138,8 @@ namespace TimeMachine
                 PaintOtherPlayers(g);
                 //Paint mobs
                 PlayerFrame playerFrame = PaintPJ(g);
-                //Paint object parts with always_on_top=true                
+                //Paint object parts with always_on_top=true
+                PaintObjectsAbove(g);
                 //Paint object efects
                 //Paint mob efects
                 //Paint other player efects
@@ -192,15 +193,18 @@ namespace TimeMachine
                         dBObject = Objects[currentObject];
                         if ((dBObject.X == j) && (dBObject.Y == i))
                         {
-                            ImgObject = Preloaded[Objects[currentObject].Image];
-                            Objects[currentObject] = null;//Freeing at the same time.
-                            using (Bitmap TransparentObj = new Bitmap(ImgObject))
+                            if (!dBObject.Above)
                             {
-                                TransparentObj.MakeTransparent(Color.White);
-                                int displaciaX = (ImgObject.Width - FrameDBReader.TILE_SIZE) / 2;
-                                int displaciaY = ImgObject.Height - FrameDBReader.TILE_SIZE;
-                                g.DrawImage(TransparentObj, new Point(x * FrameDBReader.TILE_SIZE - displaciaX, 
-                                    y * FrameDBReader.TILE_SIZE - displaciaY));
+                                ImgObject = Preloaded[Objects[currentObject].Image];
+                                Objects[currentObject] = null;//Freeing at the same time.
+                                using (Bitmap TransparentObj = new Bitmap(ImgObject))
+                                {
+                                    TransparentObj.MakeTransparent(Color.White);
+                                    int displaciaX = (ImgObject.Width - FrameDBReader.TILE_SIZE) / 2;
+                                    int displaciaY = ImgObject.Height - FrameDBReader.TILE_SIZE;
+                                    g.DrawImage(TransparentObj, new Point(x * FrameDBReader.TILE_SIZE - displaciaX, 
+                                        y * FrameDBReader.TILE_SIZE - displaciaY));
+                                }
                             }
                             currentObject++;
                         }
@@ -225,6 +229,53 @@ namespace TimeMachine
                         g.DrawRectangle(new Pen(brush3,1.0f), new Rectangle(x * FrameDBReader.TILE_SIZE, y * FrameDBReader.TILE_SIZE, FrameDBReader.TILE_SIZE - 1, FrameDBReader.TILE_SIZE - 1));
                     }
                     
+                }
+            }
+        }
+
+        protected void PaintObjectsAbove(Graphics g)
+        {
+            //Paint floor
+            DBObject[] Objects = frameDBReader.objectsReader.dBObjects.ToArray();
+            int currentObject = 0;//Contador que avanza solo si es la tile que buscamos. Ya vienen preordenadas como esperamos a falta de que no existan.
+
+
+            int iFrom = frameDBReader.playerPositionReader.dBPlayer.Player_Y - FrameDBReader.SCREEN_TILES_SIZE;
+            int iTo = frameDBReader.playerPositionReader.dBPlayer.Player_Y + FrameDBReader.SCREEN_TILES_SIZE;
+            int jFrom = frameDBReader.playerPositionReader.dBPlayer.Player_X - FrameDBReader.SCREEN_TILES_SIZE;
+            int jTo = frameDBReader.playerPositionReader.dBPlayer.Player_X + FrameDBReader.SCREEN_TILES_SIZE;
+
+            //Las tiles vienen ordenadas de menor a mayor por filas luego columnas
+            for (int i = iFrom, y = 0; i <= iTo; i++, y++)
+            {
+                for (int j = jFrom, x = 0; j <= jTo; j++, x++)
+                {
+                    
+                    DBObject dBObject = null;
+                    Image ImgObject;
+
+                    //Paint objects in tile.
+                    if (currentObject < Objects.Length)
+                    {
+                        dBObject = Objects[currentObject];
+                        if ((dBObject.X == j) && (dBObject.Y == i))
+                        {
+                            if (dBObject.Above)
+                            {
+                                ImgObject = Preloaded[Objects[currentObject].Image];
+                                Objects[currentObject] = null;//Freeing at the same time.
+                                using (Bitmap TransparentObj = new Bitmap(ImgObject))
+                                {
+                                    TransparentObj.MakeTransparent(Color.White);
+                                    int displaciaX = (ImgObject.Width - FrameDBReader.TILE_SIZE) / 2;
+                                    int displaciaY = ImgObject.Height - FrameDBReader.TILE_SIZE;
+                                    g.DrawImage(TransparentObj, new Point(x * FrameDBReader.TILE_SIZE - displaciaX,
+                                        y * FrameDBReader.TILE_SIZE - displaciaY));
+                                }
+                            }
+                            currentObject++;
+                        }
+                    }
                 }
             }
         }

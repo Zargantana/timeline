@@ -15,5 +15,6 @@
         public string LIGHTNING_FACTOR;
         public bool LIGHTSWITCH;
         public bool TRASPASSABLE;
+        public bool ABOVE;
     }
 }

@@ -74,7 +74,7 @@ namespace TimeFabric
                 case 3: { Y++; break; }
                 case 4: { X--; break; }
             }
-            DBObjectPart dBObjectPart = (new DBObjectsReader()).ReadObjectPart(connection, Transaction, X, Y);
+            DBObjectPart dBObjectPart = (new DBObjectsReader()).ReadFloorObjectPart(connection, Transaction, X, Y);
             if (dBObjectPart != null) InteractObjectStack(PlayerUID, playerInteract.StartTimestamp, dBObjectPart);
         }
 

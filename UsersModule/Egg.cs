@@ -63,7 +63,7 @@ namespace TimeLineNET.GodZillaNest
         private void LoginUser(LoginModel credentials, WorldModelEx startUp)
         {
             //TODO
-            startUp.WorldName = "World1";
+            startUp.WorldName = "World2";
             if (credentials.PlayerName == "Player1") startUp.PlayerToken = "e8b6d65a-aa79-4c7a-8c07-f8b064f60d74";
             else if (credentials.PlayerName == "Player2") startUp.PlayerToken = "8b0224d8-4f1b-4742-a282-a38c50b001d9"; 
             startUp.X = 5;
