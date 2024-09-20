@@ -23,6 +23,7 @@ namespace TimeMachine
         private const int SCREEN_PIXEL_SIZE = (FrameDBReader.SCREEN_TILES_SIZE * FrameDBReader.TILE_SIZE * 2) + FrameDBReader.TILE_SIZE;
 
         Dictionary<string, Image> Preloaded;
+        Dictionary<string, Image[]> PreloadedObjectsAnimationImages;
         Image Blank = Image.FromFile("D:\\Olles\\TimeLine\\TimeLine\\Images\\Tiles\\Bases\\Blank.gif");//Para cuando no existe.
 
         protected FrameDBReader frameDBReader;
@@ -45,6 +46,7 @@ namespace TimeMachine
 
             frameDBReader = new FrameDBReader(PlayerUID, ConnectionString);
             frameDBReader.PreloadImages(out Preloaded);
+            frameDBReader.PreloadObjectPartImages(out PreloadedObjectsAnimationImages);
         }
 
         public Bitmap PaintFrame()
@@ -61,7 +63,8 @@ namespace TimeMachine
                 //PaintOtherPlayers(g);
                 //Paint mobs
                 //PlayerFrame playerFrame = PaintPJ(g);
-                //Paint object parts with always_on_top=true                
+                //Paint object parts with always_on_top=true
+                PaintObjectsAbove(g);
                 //Paint object efects
                 //Paint mob efects
                 //Paint other player efects
@@ -115,7 +118,7 @@ namespace TimeMachine
                         dBObject = Objects[currentObject];
                         if ((dBObject.X == j) && (dBObject.Y == i))
                         {
-                            ImgObject = Preloaded[Objects[currentObject].Image];
+                            ImgObject = GetObjectFrame(dBObject);
                             Objects[currentObject] = null;//Freeing at the same time.
                             using (Bitmap TransparentObj = new Bitmap(ImgObject))
                             {
@@ -152,7 +155,84 @@ namespace TimeMachine
             }
         }
 
-       
+        protected void PaintObjectsAbove(Graphics g)
+        {
+            //Paint floor
+            DBObject[] Objects = frameDBReader.objectsReader.dBObjects.ToArray();
+            int currentObject = 0;//Contador que avanza solo si es la tile que buscamos. Ya vienen preordenadas como esperamos a falta de que no existan.
+
+
+            int iFrom = frameDBReader.playerPositionReader.dBPlayer.Player_Y - FrameDBReader.SCREEN_TILES_SIZE;
+            int iTo = frameDBReader.playerPositionReader.dBPlayer.Player_Y + FrameDBReader.SCREEN_TILES_SIZE;
+            int jFrom = frameDBReader.playerPositionReader.dBPlayer.Player_X - FrameDBReader.SCREEN_TILES_SIZE;
+            int jTo = frameDBReader.playerPositionReader.dBPlayer.Player_X + FrameDBReader.SCREEN_TILES_SIZE;
+
+            //Las tiles vienen ordenadas de menor a mayor por filas luego columnas
+            for (int i = iFrom, y = 0; i <= iTo; i++, y++)
+            {
+                for (int j = jFrom, x = 0; j <= jTo; j++, x++)
+                {
+
+                    DBObject dBObject = null;
+                    Image ImgObject;
+
+                    //Paint objects in tile.
+                    if (currentObject < Objects.Length)
+                    {
+                        dBObject = Objects[currentObject];
+                        if ((dBObject.X == j) && (dBObject.Y == i))
+                        {
+                            if (dBObject.Above)
+                            {
+                                ImgObject = GetObjectFrame(dBObject);
+                                Objects[currentObject] = null;//Freeing at the same time.
+                                using (Bitmap TransparentObj = new Bitmap(ImgObject))
+                                {
+                                    TransparentObj.MakeTransparent(Color.White);
+                                    int displaciaX = (ImgObject.Width - FrameDBReader.TILE_SIZE) / 2;
+                                    int displaciaY = ImgObject.Height - FrameDBReader.TILE_SIZE;
+                                    g.DrawImage(TransparentObj, new Point(x * FrameDBReader.TILE_SIZE - displaciaX,
+                                        y * FrameDBReader.TILE_SIZE - displaciaY));
+                                }
+                            }
+                            currentObject++;
+                        }
+                    }
+                }
+            }
+        }
+
+        private Image GetObjectFrame(DBObject dBObject)
+        {
+            int frameNumber = 0;
+
+            Image[] _local;
+            try
+            {
+                _local = PreloadedObjectsAnimationImages[dBObject.Lightswitch ? (dBObject.Lightswitch_status ? dBObject.Animation_light_on : dBObject.Animation) : dBObject.Animation];
+            }
+            catch
+            {
+                _local = new Image[] { Blank };
+            }
+
+            return GetObjectAnimationFrame(dBObject.Animation_timestamp, dBObject.Animation_speed, _local, out frameNumber);
+        }
+
+        private Image GetObjectAnimationFrame(DateTime AnimationStart, double AnimationSpeed, Image[] ObjectAnimation, out int frameNumber)
+        {
+            double Lapse = (DateTime.Now - AnimationStart).TotalMilliseconds % (((AnimationSpeed * 1000.0f) / ObjectAnimation.Length) * (double)ObjectAnimation.Length);
+
+            //TODO: Update timestamps for not having too many TotalMilliseconds.
+
+            int i = ObjectAnimation.Length;
+            frameNumber = 1;
+            while ((i > 0) && ((((AnimationSpeed * 1000.0f) / ObjectAnimation.Length) * (double)frameNumber) < Lapse)) { frameNumber++; i--; }
+            if (i == 0) frameNumber = ObjectAnimation.Length;
+            return ObjectAnimation[frameNumber - 1];
+        }
+
+
         private Bitmap DoScroll(Bitmap Lienzo)
         {
             return Lienzo.Clone(new Rectangle(new Point(FrameDBReader.TILE_SIZE, FrameDBReader.TILE_SIZE), new Size(new Point(FrameDBReader.TILE_SIZE * (FrameDBReader.SCREEN_TILES_SIZE - 1) * 2, FrameDBReader.TILE_SIZE * (FrameDBReader.SCREEN_TILES_SIZE - 1) * 2))), Lienzo.PixelFormat);

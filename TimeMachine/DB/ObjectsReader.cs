@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TimeMachine.DB.Model;
 using DataBaseTypes;
+using System.Drawing;
 
 namespace TimeMachine.DB
 {
@@ -15,7 +16,9 @@ namespace TimeMachine.DB
     {
         private Thread GetNearbyObjectsThread;
         private SqlDataReader ObjectReader;
-        private const string QUERYSTRING = "SELECT ROOM_TILE_GRID_X, ROOM_TILE_GRID_Y, IMAGE, CUTVIEW, TRASPASSABLE, ABOVE FROM OBJECT_PARTS " +
+        private const string QUERYSTRING = "SELECT ROOM_TILE_GRID_X, ROOM_TILE_GRID_Y, CUTVIEW, TRASPASSABLE, ABOVE, ANIMATION, " + 
+                "ANIMATION_LIGHT_ON, ANIMATION_SPEED, ANIMATION_TIMESTAMP, " +
+                "LIGHTSWITCH, LIGHTSWITCH_STATUS FROM OBJECT_PARTS " +
                 "WHERE (ROOM_TILE_GRID_X BETWEEN @tilexo AND @tilexf) AND (ROOM_TILE_GRID_Y BETWEEN @tileyo AND @tileyf) " +
                 "ORDER BY ROOM_TILE_GRID_Y, ROOM_TILE_GRID_X";
 
@@ -24,7 +27,7 @@ namespace TimeMachine.DB
         public ObjectsReader(): base()
         {
             GetNearbyObjectsThread = new Thread(ReadNearbyObjects);
-        }
+        }        
 
         public void GetNearbyObjects(SqlConnection connection, SqlTransaction transaction, int xo, int yo, int xf, int yf)
         {
@@ -66,10 +69,15 @@ namespace TimeMachine.DB
                     _local = new DBObject();
                     _local.X = (int)ObjectReader[0];
                     _local.Y = (int)ObjectReader[1];
-                    _local.Image = (string)ObjectReader[2];
-                    _local.Cutview = Types.DBBoolToBoolean((string)ObjectReader[3]);
-                    _local.Traspassable = Types.DBBoolToBoolean((string)ObjectReader[4]);
-                    _local.Above = Types.DBBoolToBoolean((string)ObjectReader[5]);
+                    _local.Cutview = Types.DBBoolToBoolean((string)ObjectReader[2]);
+                    _local.Traspassable = Types.DBBoolToBoolean((string)ObjectReader[3]);
+                    _local.Above = Types.DBBoolToBoolean((string)ObjectReader[4]);
+                    _local.Animation = ((Guid)ObjectReader[5]).ToString();
+                    _local.Animation_light_on = ((Guid)ObjectReader[6]).ToString();
+                    _local.Animation_speed = Types.DBDoubleToDouble((string)ObjectReader[7], 1.0f);
+                    _local.Animation_timestamp = (DateTime)ObjectReader[8];
+                    _local.Lightswitch = Types.DBBoolToBoolean((string)ObjectReader[9]);
+                    _local.Lightswitch_status = Types.DBBoolToBoolean((string)ObjectReader[10]);
 
                     dBObjects.Add(_local);
                 }

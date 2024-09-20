@@ -12,7 +12,6 @@ namespace TimeFabric
         public string Name { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public string Image { get; set; }
         public int LightStrength { get; set; }
         public int LightTiles { get; set; }
         public double LightFactor { get; set; }

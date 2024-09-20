@@ -444,8 +444,9 @@ namespace RoomEditor
             var objectPartTypesList = new List<ObjectPartType>();
             try
             {
-                SqlCommand command = new SqlCommand("SELECT [UID], [NAME], [OFFSET_X], [OFFSET_Y], [IMAGE], [PV], " +
-                    "[INVULNERABLE], [CUTVIEW], [LIGHTNING], [LIGHTNING_TILES], [LIGHTNING_FACTOR], [LIGHTSWITCH], [TRASPASSABLE], [ABOVE] " + 
+                SqlCommand command = new SqlCommand("SELECT [UID], [NAME], [OFFSET_X], [OFFSET_Y], [PV], " +
+                    "[INVULNERABLE], [CUTVIEW], [LIGHTNING], [LIGHTNING_TILES], [LIGHTNING_FACTOR], [LIGHTSWITCH], [TRASPASSABLE], [ABOVE], " +
+                    "[ANIMATION], [ANIMATION_LIGHT_ON], [ANIMATION_SPEED] " +
                     "FROM [TimeMachine2].[dbo].[OBJECT_PART_TYPES] PART INNER JOIN " +
                     "[TimeMachine2].[dbo].[REL_OBJECT_TYPES_AND_OBJECT_PART_TYPES] REL ON PART.UID = REL.OBJECT_PART_TYPE " + 
                     "WHERE REL.OBJECT_TYPE = @uid", connection);
@@ -462,16 +463,18 @@ namespace RoomEditor
                         objectPartType.NAME = (string)objectsReader[1];
                         objectPartType.OFFSET_X = (int)objectsReader[2];
                         objectPartType.OFFSET_Y = (int)objectsReader[3];
-                        objectPartType.IMAGE = (string)objectsReader[4];
-                        objectPartType.PV = (int)objectsReader[5];
-                        objectPartType.INVULNERABLE = Types.DBBoolToBoolean((string)objectsReader[6]);
-                        objectPartType.CUTVIEW = Types.DBBoolToBoolean((string)objectsReader[7]);
-                        objectPartType.LIGHTNING = (int)objectsReader[8];
-                        objectPartType.LIGHTNING_TILES = (int)objectsReader[9];
-                        objectPartType.LIGHTNING_FACTOR = (string)objectsReader[10];
-                        objectPartType.LIGHTSWITCH = Types.DBBoolToBoolean((string)objectsReader[11]);
-                        objectPartType.TRASPASSABLE = Types.DBBoolToBoolean((string)objectsReader[12]);
-                        objectPartType.ABOVE = Types.DBBoolToBoolean((string)objectsReader[13]);
+                        objectPartType.PV = (int)objectsReader[4];
+                        objectPartType.INVULNERABLE = Types.DBBoolToBoolean((string)objectsReader[5]);
+                        objectPartType.CUTVIEW = Types.DBBoolToBoolean((string)objectsReader[6]);
+                        objectPartType.LIGHTNING = (int)objectsReader[7];
+                        objectPartType.LIGHTNING_TILES = (int)objectsReader[8];
+                        objectPartType.LIGHTNING_FACTOR = (string)objectsReader[9];
+                        objectPartType.LIGHTSWITCH = Types.DBBoolToBoolean((string)objectsReader[10]);
+                        objectPartType.TRASPASSABLE = Types.DBBoolToBoolean((string)objectsReader[11]);
+                        objectPartType.ABOVE = Types.DBBoolToBoolean((string)objectsReader[12]);
+                        objectPartType.ANIMATION = ((Guid)objectsReader[13]).ToString();
+                        objectPartType.ANIMATION_LIGHT_ON = ((Guid)objectsReader[14]).ToString();
+                        objectPartType.ANIMATION_SPEED = Types.DBDoubleToDouble((string)objectsReader[15], 1.0f);
 
                         objectPartTypesList.Add(objectPartType);
                     }
@@ -517,18 +520,19 @@ namespace RoomEditor
         {
             var objectPartGuid = Guid.NewGuid();
             SqlCommand command = new SqlCommand("INSERT INTO [dbo].[OBJECT_PARTS] ([UID]" +
-                ", [NAME], [ROOM_TILE_GRID_X], [ROOM_TILE_GRID_Y], [TYPE_DEFINITION], [IMAGE], [PV], " +
+                ", [NAME], [ROOM_TILE_GRID_X], [ROOM_TILE_GRID_Y], [TYPE_DEFINITION], [PV], " +
                 "[INVULNERABLE], [CUTVIEW], [LIGHTNING], [LIGHTNING_TILES], [LIGHTNING_FACTOR], " +
-                "[LIGHTSWITCH], [LIGHTSWITCH_STATUS], [TRASPASSABLE], [ABOVE]) " +
-                "VALUES (@uid, @name, @roomgridx, @roomgridy, @typeuid, @image, @pv, @invulnerable," +
+                "[LIGHTSWITCH], [LIGHTSWITCH_STATUS], [TRASPASSABLE], [ABOVE], " +
+                "[ANIMATION], [ANIMATION_LIGHT_ON], [ANIMATION_SPEED], [ANIMATION_TIMESTAMP]) " +
+                "VALUES (@uid, @name, @roomgridx, @roomgridy, @typeuid, @pv, @invulnerable," +
                 "@cutview, @lightning, @lightning_tiles, @lightning_factor, @lightswitch, " + 
-                "@lightswitch_status, @traspassable, @above)", connection);
+                "@lightswitch_status, @traspassable, @above, " + 
+                "@animation, @animation_light_on, @animation_speed, @animation_timestamp)", connection);
             command.Parameters.AddWithValue("@uid", objectPartGuid.ToString());
             command.Parameters.AddWithValue("@name", objectPartType.NAME);
             command.Parameters.AddWithValue("@roomgridx", GODLastKnownPosition.X + objectPartType.OFFSET_X);
             command.Parameters.AddWithValue("@roomgridy", GODLastKnownPosition.Y + objectPartType.OFFSET_Y);
             command.Parameters.AddWithValue("@typeuid", objectPartType.UID);
-            command.Parameters.AddWithValue("@image", objectPartType.IMAGE);
             command.Parameters.AddWithValue("@pv", objectPartType.PV);
             command.Parameters.AddWithValue("@invulnerable", objectPartType.INVULNERABLE ? "true" : "false");
             command.Parameters.AddWithValue("@cutview", objectPartType.CUTVIEW ? "true" : "false");
@@ -539,6 +543,10 @@ namespace RoomEditor
             command.Parameters.AddWithValue("@lightswitch_status", "false");
             command.Parameters.AddWithValue("@traspassable", objectPartType.TRASPASSABLE ? "true" : "false");
             command.Parameters.AddWithValue("@above", objectPartType.ABOVE ? "true" : "false");
+            command.Parameters.AddWithValue("@animation", objectPartType.ANIMATION);
+            command.Parameters.AddWithValue("@animation_light_on", objectPartType.ANIMATION_LIGHT_ON);
+            command.Parameters.AddWithValue("@animation_speed", objectPartType.ANIMATION_SPEED);
+            command.Parameters.AddWithValue("@animation_timestamp", DateTime.UtcNow);
 
             command.ExecuteNonQuery();
 

@@ -25,6 +25,7 @@ namespace TimeMachine
         private const int SCREEN_PIXEL_SIZE = (FrameDBReader.SCREEN_TILES_SIZE * FrameDBReader.TILE_SIZE * 2) + FrameDBReader.TILE_SIZE;
 
         Dictionary<string, Image> Preloaded;
+        Dictionary<string, Image[]> PreloadedObjectsAnimationImages;
         Image Blank = Image.FromFile("D:\\Olles\\TimeLine\\TimeLine\\Images\\Tiles\\Bases\\Blank.gif");//Para cuando no existe.
 
         PersonajesImages personajesImagesAdapter;
@@ -53,6 +54,7 @@ namespace TimeMachine
 
             frameDBReader = new FrameDBReader(PlayerUID, ConnectionString);
             frameDBReader.PreloadImages(out Preloaded);
+            frameDBReader.PreloadObjectPartImages(out PreloadedObjectsAnimationImages);
         }
 
         //Read from DB and, by a logic, draw a frame for the player in the buffer (_player).
@@ -195,7 +197,8 @@ namespace TimeMachine
                         {
                             if (!dBObject.Above)
                             {
-                                ImgObject = Preloaded[Objects[currentObject].Image];
+                                //ImgObject = Preloaded[Objects[currentObject].Image];
+                                ImgObject = GetObjectFrame(dBObject);
                                 Objects[currentObject] = null;//Freeing at the same time.
                                 using (Bitmap TransparentObj = new Bitmap(ImgObject))
                                 {
@@ -262,7 +265,7 @@ namespace TimeMachine
                         {
                             if (dBObject.Above)
                             {
-                                ImgObject = Preloaded[Objects[currentObject].Image];
+                                ImgObject = GetObjectFrame(dBObject);
                                 Objects[currentObject] = null;//Freeing at the same time.
                                 using (Bitmap TransparentObj = new Bitmap(ImgObject))
                                 {
@@ -327,7 +330,7 @@ namespace TimeMachine
             DBPlayerImages _local;
             try
             {
-               _local = personajesImages[dBPlayer.UID];
+                _local = personajesImages[dBPlayer.UID];
             }
             catch
             {
@@ -357,15 +360,15 @@ namespace TimeMachine
                         else result.X_Offset += ((FrameDBReader.TILE_SIZE / PersonajeAnimationRight.Length) * (frameNumber));
                         break;
                     }
-                case 3: 
+                case 3:
                     {
                         Image[] PersonajeAnimationDown = _local.PersonajeAnimationDown;
                         result.Sprite = GetPlayerAnimationFrame(dBPlayer.MovementStart, dBPlayer.PlayerMoveSpeed, PersonajeAnimationDown, out frameNumber);
-                        if (dBPlayer.Moved) result.Y_Offset -= FrameDBReader.TILE_SIZE -((FrameDBReader.TILE_SIZE / PersonajeAnimationDown.Length) * (frameNumber));
+                        if (dBPlayer.Moved) result.Y_Offset -= FrameDBReader.TILE_SIZE - ((FrameDBReader.TILE_SIZE / PersonajeAnimationDown.Length) * (frameNumber));
                         else result.Y_Offset += ((FrameDBReader.TILE_SIZE / PersonajeAnimationDown.Length) * (frameNumber));
                         break;
                     }
-                case 4: 
+                case 4:
                     {
                         Image[] PersonajeAnimationLeft = _local.PersonajeAnimationLeft;
                         result.Sprite = GetPlayerAnimationFrame(dBPlayer.MovementStart, dBPlayer.PlayerMoveSpeed, PersonajeAnimationLeft, out frameNumber);
@@ -377,6 +380,23 @@ namespace TimeMachine
             return result;
         }
 
+        private Image GetObjectFrame(DBObject dBObject)
+        {
+            int frameNumber = 0;
+
+            Image[] _local;
+            try
+            {
+                _local = PreloadedObjectsAnimationImages[dBObject.Lightswitch?(dBObject.Lightswitch_status?dBObject.Animation_light_on:dBObject.Animation):dBObject.Animation];
+            }
+            catch
+            {
+                _local = new Image[] { Blank };
+            }
+
+            return GetObjectAnimationFrame(dBObject.Animation_timestamp, dBObject.Animation_speed, _local, out frameNumber);
+        }
+
         private Image GetPlayerAnimationFrame(DateTime MovementStart, double PlayerMoveSpeed, Image[] PersonajeAnimation, out int frameNumber)
         {
             double Lapse = (DateTime.Now - MovementStart).TotalMilliseconds;
@@ -386,6 +406,19 @@ namespace TimeMachine
             while ((i > 0) && ( (((PlayerMoveSpeed * 1000.0f) / PersonajeAnimation.Length) * (double)frameNumber) < Lapse )) { frameNumber++; i--; }
             if (i == 0) frameNumber = PersonajeAnimation.Length;
             return PersonajeAnimation[frameNumber-1];
+        }
+
+        private Image GetObjectAnimationFrame(DateTime AnimationStart, double AnimationSpeed, Image[] ObjectAnimation, out int frameNumber)
+        {
+            double Lapse = (DateTime.Now - AnimationStart).TotalMilliseconds % (((AnimationSpeed * 1000.0f) / ObjectAnimation.Length) * (double)ObjectAnimation.Length);
+
+            //TODO: Update timestamps for not having too many TotalMilliseconds.
+
+            int i = ObjectAnimation.Length;
+            frameNumber = 1;
+            while ((i > 0) && ((((AnimationSpeed * 1000.0f) / ObjectAnimation.Length) * (double)frameNumber) < Lapse)) { frameNumber++; i--; }
+            if (i == 0) frameNumber = ObjectAnimation.Length;
+            return ObjectAnimation[frameNumber - 1];
         }
 
         private Image GetPlayerFacingFrame(DBPlayer dBPlayer)

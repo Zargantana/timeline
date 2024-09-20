@@ -74,6 +74,62 @@ namespace TimeMachine.DB
             { }
         }
 
+        private const string QUERYSTRINGU =
+            "SELECT ANI.UID, IMG.IMAGE " +
+            "FROM " +
+            "    ANIMATIONS ANI " +
+            "    INNER JOIN OBJECT_PART_ANIMATION_IMAGES IMG ON ANI.UID = IMG.ANIMATION " +
+            "ORDER BY ANI.UID, IMG.STEP ASC ";
+        public void PreloadObjectPartImages(out Dictionary<string, Image[]> Preloaded)
+        {
+            Preloaded = new Dictionary<string, Image[]>();
+            SqlDataReader ObjectAnimationsReader;
+            SqlCommand command = new SqlCommand(QUERYSTRINGU, connection);
+
+            try
+            {
+                ObjectAnimationsReader = command.ExecuteReader();
+                try
+                {
+                    var differ = false;
+                    while (true)
+                    {
+                        var images = new List<Image>();
+                        var uid = string.Empty;
+                        if (differ)
+                        {
+                            uid = ((Guid)ObjectAnimationsReader[0]).ToString();
+                            images.Add(Image.FromFile((string)ObjectAnimationsReader[1]));
+                            differ = false;
+                        }
+                        while (ObjectAnimationsReader.Read())
+                        {
+                            var readedUid = ((Guid)ObjectAnimationsReader[0]).ToString();
+
+                            if (uid == string.Empty) uid = readedUid;
+                            else if (uid != readedUid) { differ = true; break; }
+
+                            images.Add(Image.FromFile((string)ObjectAnimationsReader[1]));
+                        }
+                        if (!differ && images.Count == 0) break;
+                        Preloaded.Add(uid, images.ToArray());
+                    }
+                }
+                finally
+                {
+                    try
+                    {
+                        ObjectAnimationsReader.Close();
+                    }
+                    catch { }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }        
+
         public void ReadFrameData()
         {
             SqlTransaction sqlTransaction;

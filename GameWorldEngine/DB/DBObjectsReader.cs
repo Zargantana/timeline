@@ -12,7 +12,7 @@ namespace TimeFabric
     public class DBObjectsReader
     {
         public const int MAX_ROOM_OBJECTS = 128;
-        private const string OP_QUERYSTRING = "SELECT [UID],[NAME],[ROOM_TILE_GRID_X],[ROOM_TILE_GRID_Y],[IMAGE],[PV],[INVULNERABLE],[CUTVIEW],[TRASPASSABLE]" +
+        private const string OP_QUERYSTRING = "SELECT [UID],[NAME],[ROOM_TILE_GRID_X],[ROOM_TILE_GRID_Y],[PV],[INVULNERABLE],[CUTVIEW],[TRASPASSABLE]" +
             ",[LIGHTNING],[LIGHTNING_TILES],[LIGHTNING_FACTOR],[LIGHTSWITCH], [LIGHTSWITCH_STATUS], [ABOVE] FROM [dbo].[OBJECT_PARTS]";
         public DBObjectPartList ReadObjectPartsList(SqlConnection connection, SqlTransaction Transaction, out DBObjectPart[] LightSwitchObjectParts)
         {
@@ -37,17 +37,16 @@ namespace TimeFabric
                         dBObjectPart.Name = (string)objectPartsReader[1];
                         dBObjectPart.X = (int)objectPartsReader[2];
                         dBObjectPart.Y = (int)objectPartsReader[3];
-                        dBObjectPart.Image =(string)objectPartsReader[4];
-                        dBObjectPart.PV = (int)objectPartsReader[5];
-                        dBObjectPart.Invulnerable = Types.DBBoolToBoolean((string)objectPartsReader[6]);
-                        dBObjectPart.Cutview = Types.DBBoolToBoolean((string)objectPartsReader[7]);
-                        dBObjectPart.Traspassable = Types.DBBoolToBoolean((string)objectPartsReader[8]);
-                        dBObjectPart.LightStrength = (int)objectPartsReader[9];
-                        dBObjectPart.LightTiles = (int)objectPartsReader[10];
-                        dBObjectPart.LightFactor = Types.DBDoubleToDouble((string)objectPartsReader[11], 1.0f);
-                        dBObjectPart.LightSwitch = Types.DBBoolToBoolean((string)objectPartsReader[12]);
-                        dBObjectPart.LightSwitchStatus = Types.DBBoolToBoolean((string)objectPartsReader[13]);
-                        dBObjectPart.Above  = Types.DBBoolToBoolean((string)objectPartsReader[14]);
+                        dBObjectPart.PV = (int)objectPartsReader[4];
+                        dBObjectPart.Invulnerable = Types.DBBoolToBoolean((string)objectPartsReader[5]);
+                        dBObjectPart.Cutview = Types.DBBoolToBoolean((string)objectPartsReader[6]);
+                        dBObjectPart.Traspassable = Types.DBBoolToBoolean((string)objectPartsReader[7]);
+                        dBObjectPart.LightStrength = (int)objectPartsReader[8];
+                        dBObjectPart.LightTiles = (int)objectPartsReader[9];
+                        dBObjectPart.LightFactor = Types.DBDoubleToDouble((string)objectPartsReader[10], 1.0f);
+                        dBObjectPart.LightSwitch = Types.DBBoolToBoolean((string)objectPartsReader[11]);
+                        dBObjectPart.LightSwitchStatus = Types.DBBoolToBoolean((string)objectPartsReader[12]);
+                        dBObjectPart.Above  = Types.DBBoolToBoolean((string)objectPartsReader[13]);
 
                         dBObjectPartsList.Add(dBObjectPart.UID, dBObjectPart);
                         LightSwitchObjectParts[count++] = dBObjectPart;
@@ -72,7 +71,7 @@ namespace TimeFabric
             return dBObjectPartsList;
         }
 
-        private const string OOP_QUERYSTRING = "SELECT [UID],[NAME],[IMAGE],[PV],[INVULNERABLE],[CUTVIEW],[TRASPASSABLE]" +
+        private const string OOP_QUERYSTRING = "SELECT [UID],[NAME],[PV],[INVULNERABLE],[CUTVIEW],[TRASPASSABLE]" +
            ",[LIGHTNING],[LIGHTNING_TILES],[LIGHTNING_FACTOR],[LIGHTSWITCH],[LIGHTSWITCH_STATUS],[ABOVE] FROM [dbo].[OBJECT_PARTS] WHERE [ROOM_TILE_GRID_X]=@X AND [ROOM_TILE_GRID_Y]=@Y";
         public DBObjectPart ReadObjectPart(SqlConnection connection, SqlTransaction Transaction, int X, int Y)
         {
@@ -95,17 +94,16 @@ namespace TimeFabric
 
                         dBObjectPart.UID = ((Guid)objectPartsReader[0]).ToString();
                         dBObjectPart.Name = (string)objectPartsReader[1];
-                        dBObjectPart.Image = (string)objectPartsReader[2];
-                        dBObjectPart.PV = (int)objectPartsReader[3];
-                        dBObjectPart.Invulnerable = Types.DBBoolToBoolean((string)objectPartsReader[4]);
-                        dBObjectPart.Cutview = Types.DBBoolToBoolean((string)objectPartsReader[5]);
-                        dBObjectPart.Traspassable = Types.DBBoolToBoolean((string)objectPartsReader[6]);
-                        dBObjectPart.LightStrength = (int)objectPartsReader[7];
-                        dBObjectPart.LightTiles = (int)objectPartsReader[8];
-                        dBObjectPart.LightFactor = Types.DBDoubleToDouble((string)objectPartsReader[9], 1.0f);
-                        dBObjectPart.LightSwitch = Types.DBBoolToBoolean((string)objectPartsReader[10]);
-                        dBObjectPart.LightSwitchStatus = Types.DBBoolToBoolean((string)objectPartsReader[11]);
-                        dBObjectPart.Above = Types.DBBoolToBoolean((string)objectPartsReader[12]);
+                        dBObjectPart.PV = (int)objectPartsReader[2];
+                        dBObjectPart.Invulnerable = Types.DBBoolToBoolean((string)objectPartsReader[3]);
+                        dBObjectPart.Cutview = Types.DBBoolToBoolean((string)objectPartsReader[4]);
+                        dBObjectPart.Traspassable = Types.DBBoolToBoolean((string)objectPartsReader[5]);
+                        dBObjectPart.LightStrength = (int)objectPartsReader[6];
+                        dBObjectPart.LightTiles = (int)objectPartsReader[7];
+                        dBObjectPart.LightFactor = Types.DBDoubleToDouble((string)objectPartsReader[8], 1.0f);
+                        dBObjectPart.LightSwitch = Types.DBBoolToBoolean((string)objectPartsReader[9]);
+                        dBObjectPart.LightSwitchStatus = Types.DBBoolToBoolean((string)objectPartsReader[10]);
+                        dBObjectPart.Above = Types.DBBoolToBoolean((string)objectPartsReader[11]);
                     }
                 }
                 finally
@@ -126,7 +124,7 @@ namespace TimeFabric
             return dBObjectPart;
         }
 
-        private const string OOP2_QUERYSTRING = "SELECT [UID],[NAME],[IMAGE],[PV],[INVULNERABLE],[CUTVIEW],[TRASPASSABLE]" +
+        private const string OOP2_QUERYSTRING = "SELECT [UID],[NAME],[PV],[INVULNERABLE],[CUTVIEW],[TRASPASSABLE]" +
            ",[LIGHTNING],[LIGHTNING_TILES],[LIGHTNING_FACTOR],[LIGHTSWITCH],[LIGHTSWITCH_STATUS],[ABOVE] FROM [dbo].[OBJECT_PARTS] WHERE [ROOM_TILE_GRID_X]=@X AND [ROOM_TILE_GRID_Y]=@Y AND [ABOVE]='false'";
         public DBObjectPart ReadFloorObjectPart(SqlConnection connection, SqlTransaction Transaction, int X, int Y)
         {
@@ -149,17 +147,16 @@ namespace TimeFabric
 
                         dBObjectPart.UID = ((Guid)objectPartsReader[0]).ToString();
                         dBObjectPart.Name = (string)objectPartsReader[1];
-                        dBObjectPart.Image = (string)objectPartsReader[2];
-                        dBObjectPart.PV = (int)objectPartsReader[3];
-                        dBObjectPart.Invulnerable = Types.DBBoolToBoolean((string)objectPartsReader[4]);
-                        dBObjectPart.Cutview = Types.DBBoolToBoolean((string)objectPartsReader[5]);
-                        dBObjectPart.Traspassable = Types.DBBoolToBoolean((string)objectPartsReader[6]);
-                        dBObjectPart.LightStrength = (int)objectPartsReader[7];
-                        dBObjectPart.LightTiles = (int)objectPartsReader[8];
-                        dBObjectPart.LightFactor = Types.DBDoubleToDouble((string)objectPartsReader[9], 1.0f);
-                        dBObjectPart.LightSwitch = Types.DBBoolToBoolean((string)objectPartsReader[10]);
-                        dBObjectPart.LightSwitchStatus = Types.DBBoolToBoolean((string)objectPartsReader[11]);
-                        dBObjectPart.Above = Types.DBBoolToBoolean((string)objectPartsReader[12]);
+                        dBObjectPart.PV = (int)objectPartsReader[2];
+                        dBObjectPart.Invulnerable = Types.DBBoolToBoolean((string)objectPartsReader[3]);
+                        dBObjectPart.Cutview = Types.DBBoolToBoolean((string)objectPartsReader[4]);
+                        dBObjectPart.Traspassable = Types.DBBoolToBoolean((string)objectPartsReader[5]);
+                        dBObjectPart.LightStrength = (int)objectPartsReader[6];
+                        dBObjectPart.LightTiles = (int)objectPartsReader[7];
+                        dBObjectPart.LightFactor = Types.DBDoubleToDouble((string)objectPartsReader[8], 1.0f);
+                        dBObjectPart.LightSwitch = Types.DBBoolToBoolean((string)objectPartsReader[9]);
+                        dBObjectPart.LightSwitchStatus = Types.DBBoolToBoolean((string)objectPartsReader[10]);
+                        dBObjectPart.Above = Types.DBBoolToBoolean((string)objectPartsReader[11]);
                     }
                 }
                 finally
