@@ -80,9 +80,11 @@ namespace TimeMachine.DB
                 SqlDataReader positionReader = command.ExecuteReader();
                 try
                 {
-                    DBPlayer _local = new DBPlayer();
+                    
                     while (positionReader.Read())
                     {
+                        DBPlayer _local = new DBPlayer();
+
                         _local.UID = ((Guid)positionReader[0]).ToString();
                         _local.PlayerMoveSpeed = Types.DBDoubleToDouble((string)positionReader[1], 1);
                         _local.Movement = (int)positionReader[2];

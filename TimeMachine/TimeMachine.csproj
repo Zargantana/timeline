@@ -46,7 +46,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Animation.cs" />
     <Compile Include="DB\Model\DBPlayerImages.cs" />
     <Compile Include="DB\PlayerInfoDBReader.cs" />
     <Compile Include="DB\FrameDBReader.cs" />
@@ -58,25 +57,25 @@
     <Compile Include="DB\ScreenTilesReader.cs" />
     <Compile Include="DB\PlayerReader.cs" />
     <Compile Include="DB\TWorker.cs" />
-    <Compile Include="InformationMultiBuffer.cs" />
-    <Compile Include="FrameMultiBuffer.cs" />
-    <Compile Include="GameConnection.cs" />
-    <Compile Include="GameViewEngine.cs" />
-    <Compile Include="KeysConnector.cs" />
-    <Compile Include="KeysPressed.cs" />
-    <Compile Include="mESUREITOR.cs" />
-    <Compile Include="MultiBuffer.cs" />
-    <Compile Include="PlayerFrame.cs" />
-    <Compile Include="PlayerImagesEngine.cs" />
-    <Compile Include="PlayerInfoEngine.cs" />
+    <Compile Include="Core\Buffers\InformationMultiBuffer.cs" />
+    <Compile Include="Core\Buffers\FrameMultiBuffer.cs" />
+    <Compile Include="Core\GameConnection.cs" />
+    <Compile Include="Engines\GameViewEngine.cs" />
+    <Compile Include="Connectors\KeysConnector.cs" />
+    <Compile Include="Models\KeysPressed.cs" />
+    <Compile Include="Core\mESUREITOR.cs" />
+    <Compile Include="Core\Buffers\MultiBuffer.cs" />
+    <Compile Include="Models\PlayerFrame.cs" />
+    <Compile Include="Engines\PlayerImagesEngine.cs" />
+    <Compile Include="Engines\PlayerInfoEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="EditorViewEngine.cs" />
-    <Compile Include="TimeViewEngine.cs" />
+    <Compile Include="Engines\EditorViewEngine.cs" />
+    <Compile Include="Engines\TimeViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -97,5 +96,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

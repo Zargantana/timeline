@@ -410,9 +410,15 @@ namespace TimeMachine
 
         private Image GetObjectAnimationFrame(DateTime AnimationStart, double AnimationSpeed, Image[] ObjectAnimation, out int frameNumber)
         {
-            double Lapse = (DateTime.Now - AnimationStart).TotalMilliseconds % (((AnimationSpeed * 1000.0f) / ObjectAnimation.Length) * (double)ObjectAnimation.Length);
+            var now = DateTime.Now;
+            double Lapse = (now - AnimationStart).TotalMilliseconds % (AnimationSpeed * 1000.0f);
 
             //TODO: Update timestamps for not having too many TotalMilliseconds.
+            //if ((now - AnimationStart).TotalMilliseconds / (AnimationSpeed * 1000.0f) > 3600)
+            //{
+            //    UpdateObjectPartTimestamp(dBObject, now.AddMilliseconds(Lapse));
+            //}
+            //NOTE: Find another way, here we can only read.
 
             int i = ObjectAnimation.Length;
             frameNumber = 1;
