@@ -186,7 +186,7 @@ namespace TimeMachine.DB
             objectsReader.GetNearbyObjects(connection, transaction, playerPositionReader.dBPlayer.Player_X - SCREEN_TILES_SIZE,
                 playerPositionReader.dBPlayer.Player_Y - SCREEN_TILES_SIZE, playerPositionReader.dBPlayer.Player_X + SCREEN_TILES_SIZE,
                 playerPositionReader.dBPlayer.Player_Y + SCREEN_TILES_SIZE);
-        }
+        }       
 
         public void Dispose()
         {

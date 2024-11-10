@@ -138,7 +138,7 @@ namespace TimeMachine
                 //Paint floor efects 
                 //Paint Objects (Happens in PalintFloor for optimization)
                 PaintOtherPlayers(g);
-                //Paint mobs
+                
                 PlayerFrame playerFrame = PaintPJ(g);
                 //Paint object parts with always_on_top=true
                 PaintObjectsAbove(g);
@@ -378,7 +378,7 @@ namespace TimeMachine
                     }
             }
             return result;
-        }
+        }        
 
         private Image GetObjectFrame(DBObject dBObject)
         {
@@ -436,7 +436,7 @@ namespace TimeMachine
                 case 4: return personajesImages[dBPlayer.UID].PersonajeLeft;
                 default: return personajesImages[dBPlayer.UID].PersonajeDown;  
             }
-        }
+        }        
 
         private Bitmap DoScroll(Bitmap Lienzo, PlayerFrame playerFrame)
         {
